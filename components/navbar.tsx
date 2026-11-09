@@ -63,6 +63,7 @@ export function SiteNavbar() {
           </Link>
           <Button
             size="lg"
+            nativeButton={false}
             className="ml-1"
             render={<Link href="/get-started" />}
           >
@@ -114,6 +115,7 @@ export function SiteNavbar() {
               </Link>
               <Button
                 size="lg"
+                nativeButton={false}
                 render={
                   <Link href="/get-started" onClick={() => setOpen(false)} />
                 }
