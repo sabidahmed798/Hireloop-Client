@@ -112,7 +112,7 @@ export function Hero() {
       {/* --------------------------------------------------------------
           PART 2: glowing globe with text and stat cards on top of it
       -------------------------------------------------------------- */}
-      <div className="relative -mt-12 aspect-square sm:-mt-16 sm:aspect-[3/2] lg:-mt-20 lg:aspect-[2/1]">
+      <div className="relative -mt-12 aspect-[4/5] sm:-mt-16 sm:aspect-[3/2] lg:-mt-20 lg:aspect-[2/1]">
         {/* The globe artwork: a fixed-aspect "window" that only shows the
             glowing top arc, cropping away the plain black bottom half */}
         <Image
@@ -126,7 +126,7 @@ export function Hero() {
         />
 
         {/* Text floating just below the lit edge of the globe */}
-        <p className="absolute inset-x-0 top-[22%] mx-auto max-w-md px-4 text-center text-xl text-pretty text-foreground sm:top-[26%] sm:text-2xl lg:top-[32%]">
+        <p className="absolute inset-x-0 top-[18%] mx-auto max-w-md px-4 text-center text-xl text-pretty text-foreground sm:top-[26%] sm:text-2xl lg:top-[32%]">
           Assisting over <span className="font-bold">15,000 job seekers</span>{" "}
           find their dream positions.
         </p>
@@ -137,7 +137,7 @@ export function Hero() {
             {STATS.map((stat) => (
               <Card
                 key={stat.label}
-                className="h-28 bg-card/90 sm:h-36 lg:h-40 md:gap-6"
+                className="h-28 bg-card/90 md:h-36 lg:h-40 md:gap-6"
               >
                 <CardHeader>
                   <stat.icon className="size-5 text-muted-foreground" />

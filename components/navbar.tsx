@@ -56,7 +56,7 @@ export function SiteNavbar() {
           </ul>
           <Separator orientation="vertical" className="h-5 self-center!" />
           <Link
-            href="/signin"
+            href="/sign-in"
             className="rounded-md px-3 py-2 text-sm text-primary transition-colors hover:opacity-80"
           >
             Sign in
@@ -65,7 +65,7 @@ export function SiteNavbar() {
             size="lg"
             nativeButton={false}
             className="ml-1"
-            render={<Link href="/get-started" />}
+            render={<Link href="/sign-up" />}
           >
             Get Started
           </Button>
@@ -107,7 +107,7 @@ export function SiteNavbar() {
             </nav>
             <div className="flex flex-col gap-2 p-4">
               <Link
-                href="/signin"
+                href="/sign-in"
                 onClick={() => setOpen(false)}
                 className="rounded-md px-3 py-2 text-center text-sm text-primary transition-colors hover:opacity-80"
               >
@@ -117,7 +117,7 @@ export function SiteNavbar() {
                 size="lg"
                 nativeButton={false}
                 render={
-                  <Link href="/get-started" onClick={() => setOpen(false)} />
+                  <Link href="/sign-up" onClick={() => setOpen(false)} />
                 }
               >
                 Get Started
