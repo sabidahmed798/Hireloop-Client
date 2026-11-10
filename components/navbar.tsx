@@ -14,6 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { useSession, signOut } from "@/lib/auth-client"
 
 const NAV_LINKS = [
   { label: "Browse Jobs", href: "/browse-jobs" },
@@ -23,7 +24,12 @@ const NAV_LINKS = [
 
 export function SiteNavbar() {
   const [open, setOpen] = useState(false)
+  const { data: session } = useSession()
 
+  console.log("user session in navber", session)
+  const handleSignOut = async () => {
+    await signOut()
+  }
   return (
     <header className="sticky top-0 z-50 p-2 sm:p-3">
       <nav className="flex h-14 w-full items-center justify-between gap-3 rounded-xl border border-border bg-card/80 px-3 shadow-sm backdrop-blur-sm sm:px-5">
@@ -55,20 +61,35 @@ export function SiteNavbar() {
             ))}
           </ul>
           <Separator orientation="vertical" className="h-5 self-center!" />
-          <Link
-            href="/sign-in"
-            className="rounded-md px-3 py-2 text-sm text-primary transition-colors hover:opacity-80"
-          >
-            Sign in
-          </Link>
-          <Button
-            size="lg"
-            nativeButton={false}
-            className="ml-1"
-            render={<Link href="/sign-up" />}
-          >
-            Get Started
-          </Button>
+          {session?.user ? (
+            <>
+              <span>Welcome, {session.user.name}</span>
+              <Link
+                onClick={handleSignOut}
+                href="/sign-in"
+                className="rounded-md px-3 py-2 text-sm text-primary transition-colors hover:opacity-80"
+              >
+                Sign Out
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/sign-in"
+                className="rounded-md px-3 py-2 text-sm text-primary transition-colors hover:opacity-80"
+              >
+                Sign in
+              </Link>
+              <Button
+                size="lg"
+                nativeButton={false}
+                className="ml-1"
+                render={<Link href="/sign-up" />}
+              >
+                Get Started
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Mobile menu */}
@@ -116,9 +137,7 @@ export function SiteNavbar() {
               <Button
                 size="lg"
                 nativeButton={false}
-                render={
-                  <Link href="/sign-up" onClick={() => setOpen(false)} />
-                }
+                render={<Link href="/sign-up" onClick={() => setOpen(false)} />}
               >
                 Get Started
               </Button>
