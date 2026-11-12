@@ -1,15 +1,15 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-// import { AppSidebar } from "@/components/app-sidebar"
-import { DashboardSidebar } from "../components/DashboardSidebar"
+import { DashboardHeader } from "@/app/components/DashboardHeader"
+import { DashboardSidebar } from "@/app/components/DashboardSidebar"
+
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <SidebarProvider>
+    <div className="flex min-h-svh gap-2 bg-[#08080A] p-2">
       <DashboardSidebar />
-      <main>
-        <SidebarTrigger />
-        {children}
-      </main>
-    </SidebarProvider>
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-[10px] border border-white/[0.06] bg-[#0E0E11]">
+        <DashboardHeader />
+        <main className="flex-1">{children}</main>
+      </div>
+    </div>
   )
 }
 

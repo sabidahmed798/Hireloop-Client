@@ -15,18 +15,22 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { useSession, signOut } from "@/lib/auth-client"
-
-const NAV_LINKS = [
-  { label: "Browse Jobs", href: "/browse-jobs" },
-  { label: "Company", href: "/company" },
-  { label: "Pricing", href: "/pricing" },
-]
+import { Session } from "inspector/promises"
 
 export function SiteNavbar() {
   const [open, setOpen] = useState(false)
   const { data: session } = useSession()
 
-  console.log("user session in navber", session)
+  const NAV_LINKS = [
+    { label: "Browse Jobs", href: "/browse-jobs" },
+    { label: "Company", href: "/company" },
+    { label: "Pricing", href: "/pricing" },
+    {
+      label: "Dashboard",
+      href: `/dashboard/${session?.user.role || "seeker"}`,
+    },
+  ]
+
   const handleSignOut = async () => {
     await signOut()
   }
