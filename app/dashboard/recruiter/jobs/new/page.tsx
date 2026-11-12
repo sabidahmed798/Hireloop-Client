@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { createJobs } from "@/lib/actions/jobs"
 
 const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"] as const
 
@@ -37,7 +38,7 @@ const SALARY_FREQUENCIES = [
 ] as const
 
 // All form data lives in one flat object — one field, one key, nothing nested.
-const initialForm = {
+export const initialForm = {
   title: "",
   company: "",
   category: "",
@@ -107,12 +108,15 @@ const NewJobsPage = () => {
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }))
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     // TODO: wire this to an API route / server action when persistence is added.
     console.log("Job post data:", form)
     setForm(initialForm)
     setPublished(true)
+
+    const result = await createJobs(form)
+    console.log("createJobs result:", result)
   }
 
   return (
