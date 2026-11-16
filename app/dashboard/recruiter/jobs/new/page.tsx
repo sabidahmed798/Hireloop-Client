@@ -16,6 +16,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { createJobs } from "@/lib/actions/jobs"
+import type { FormState } from "@/lib/types/job"
+import { toast } from "@/components/ui/toast"
+import { useRouter } from "next/navigation"
 
 const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"] as const
 
@@ -38,7 +41,7 @@ const SALARY_FREQUENCIES = [
 ] as const
 
 // All form data lives in one flat object — one field, one key, nothing nested.
-export const initialForm = {
+export const initialForm: FormState = {
   title: "",
   company: "",
   category: "",
@@ -52,8 +55,6 @@ export const initialForm = {
   responsibilities: "",
   requirements: "",
 }
-
-type FormState = typeof initialForm
 
 const inputClass =
   "h-10 w-full rounded-lg border-white/[0.08] bg-[#1A1A1F] text-sm text-[#EDEDEF]"
@@ -102,6 +103,8 @@ const Field = ({
 )
 
 const NewJobsPage = () => {
+  const router = useRouter()
+
   const [form, setForm] = useState<FormState>(initialForm)
   const [published, setPublished] = useState(false)
 
@@ -110,13 +113,29 @@ const NewJobsPage = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    // TODO: wire this to an API route / server action when persistence is added.
-    console.log("Job post data:", form)
-    setForm(initialForm)
-    setPublished(true)
+    try {
+      const result = await createJobs(form)
+      console.log("createJobs result:", result)
+      toast.add({
+        type: "success",
+        title: "Job created",
+        description: `“${form.title}” has been published successfully`,
+      })
+      setForm(initialForm)
+      setPublished(true)
 
-    const result = await createJobs(form)
-    console.log("createJobs result:", result)
+      router.push("/dashboard/recruiter/jobs")
+    } catch (error) {
+      console.error("Failed to create job", error)
+      toast.add({
+        type: "error",
+        title: "Failed to create job",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+      })
+    }
   }
 
   return (
@@ -138,9 +157,7 @@ const NewJobsPage = () => {
         </div>
         <div className="flex items-center gap-3">
           {published ? (
-            <span className="text-sm text-emerald-400">
-              Job post created (logged to console)
-            </span>
+            <span className="text-sm text-emerald-400">Job post published</span>
           ) : null}
         </div>
       </div>

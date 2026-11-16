@@ -1,5 +1,6 @@
 import { DashboardHeader } from "@/app/components/DashboardHeader"
 import { DashboardSidebar } from "@/app/components/DashboardSidebar"
+import { Toaster } from "@/components/ui/toast"
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -8,6 +9,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-[10px] border border-white/[0.06] bg-[#0E0E11]">
         <DashboardHeader />
         <main className="flex-1">{children}</main>
+        <Toaster />
       </div>
     </div>
   )
