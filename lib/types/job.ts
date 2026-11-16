@@ -20,6 +20,11 @@ export type FormState = {
 }
 
 /**
+ * A job as persisted by the backend: the form payload plus its database id.
+ */
+export type JobRecord = FormState & { _id: string }
+
+/**
  * Display-only status derived from the deadline on the dashboard —
  * not part of the form payload sent to the backend.
  */

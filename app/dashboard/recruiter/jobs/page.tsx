@@ -4,18 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Menu } from "@base-ui/react/menu"
 // import { DeletejobDialog } from "@/app/components/DeletejobDialog"
-import {
-  Briefcase,
-  Code2,
-  MapPin,
-  Megaphone,
-  MoreHorizontal,
-  Palette,
-  Pencil,
-  Plus,
-  Settings2,
-  type LucideIcon,
-} from "lucide-react"
+import { Briefcase, MapPin, MoreHorizontal, Pencil, Plus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { StatusBadge } from "@/app/components/dashboard-primitives"
@@ -23,6 +12,12 @@ import type { FormState, JobStatus } from "@/lib/types/job"
 import { getJobs } from "@/lib/api/jobs"
 import { deleteJob } from "@/lib/actions/jobs"
 import { DeletejobDialog } from "@/app/components/DeletejobDialog"
+import {
+  CATEGORY_ICONS,
+  CATEGORY_TONES,
+  FREQ_SHORT,
+  formatSalary,
+} from "@/lib/job-display"
 
 /**
  * A job listing row: everything stored from the "Post a New Job" page
@@ -70,44 +65,6 @@ const columns = [
 ]
 
 const gridCols = "grid-cols-[2.1fr_1.7fr_0.7fr_1.2fr_1fr_0.9fr_1fr_1fr]"
-
-const CATEGORY_ICONS: Record<string, LucideIcon> = {
-  "Engineering & Tech": Code2,
-  "Design & Creative": Palette,
-  Marketing: Megaphone,
-  Sales: Megaphone,
-  "Human Resources": Briefcase,
-  "Finance & Accounting": Briefcase,
-  "Customer Support": Briefcase,
-  Operations: Settings2,
-}
-
-const CATEGORY_TONES: Record<string, string> = {
-  "Engineering & Tech": "bg-[#6366F1]/10 text-[#8B8BF5]",
-  "Design & Creative": "bg-[#F472B6]/10 text-[#F472B6]",
-  Marketing: "bg-[#F59E0B]/10 text-[#F59E0B]",
-  Sales: "bg-[#F59E0B]/10 text-[#F59E0B]",
-  "Human Resources": "bg-[#22C55E]/10 text-[#22C55E]",
-  "Finance & Accounting": "bg-[#60A5FA]/10 text-[#60A5FA]",
-  "Customer Support": "bg-[#60A5FA]/10 text-[#60A5FA]",
-  Operations: "bg-[#22C55E]/10 text-[#22C55E]",
-}
-
-const FREQ_SHORT: Record<string, string> = {
-  "per hour": "hr",
-  "per day": "day",
-  "per month": "mo",
-  "per year": "yr",
-}
-
-const formatSalary = (value: string, frequency: string) => {
-  const amount = Number(value)
-  if (value === "" || !Number.isFinite(amount)) return "—"
-  if (frequency === "per year" && amount >= 1000) {
-    return `€${Math.round(amount / 1000)}k`
-  }
-  return `€${amount}`
-}
 
 const formatDate = (value: string) => {
   if (!value) return "—"
